@@ -1,5 +1,5 @@
 import { Text } from "react-native";
 
 export default function Feed() {
-    return <Text>Feed</Text>;
+    return <Text className="text-3xl font-bold">Feed</Text>;
 }
