@@ -6,10 +6,9 @@ export default function Feed() {
     return (
         <FlatList 
             data={posts} 
-            contentContainerStyle={{ gap: 10, maxWidth: 512, width: "100%" }}
+            contentContainerStyle={{ gap: 10, maxWidth: 512, width: "100%", alignSelf: "center" }}
             renderItem={({ item }) => <PostListItem post={item} /> }
             showsVerticalScrollIndicator={false}
-            className="items-center"
         />
     );
 }
