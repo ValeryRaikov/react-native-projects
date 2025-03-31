@@ -47,7 +47,7 @@ export default function CreatePost() {
             <TextInput 
                 value={caption} 
                 onChangeText={(newValue) => setCaption(newValue)}
-                placeholder="What is on your mind>" 
+                placeholder="What is on your mind?" 
                 className="w-full p-3" 
             />
 
