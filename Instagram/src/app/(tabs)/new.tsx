@@ -3,10 +3,15 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import Button from "~/src/components/Button";
 import { uploadImage } from "~/src/lib/utils";
+import { supabase } from "~/src/lib/supabase";
+import { useAuth } from "~/src/providers/AuthProvider";
+import { router } from "expo-router";
 
 export default function CreatePost() {
     const [caption, setCaption] = useState('');
     const [image, setImage] = useState<string | null>(null);
+
+    const { session } = useAuth();
 
     useEffect(() => {
         if (!image) {
@@ -35,6 +40,20 @@ export default function CreatePost() {
             return;
 
         const response = await uploadImage(image);
+
+        
+        const { data, error } = await supabase
+        .from('posts')
+        .insert([
+            { 
+                caption, 
+                image: response?.public_id, 
+                user_id: session?.user.id,
+            },
+        ])
+        .select();
+
+        router.push("/(tabs)");
     }
 
     return (
