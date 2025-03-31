@@ -65,7 +65,7 @@ export default function CreatePost() {
                     className="w-52 aspect-[3/4] rounded-lg shadow-md"
                 />
             ) : (
-                <View className="w-52 aspect-[3/4] rounded-lg" />
+                <View className="w-52 aspect-[3/4] rounded-lg bg-slate-300" />
             )}
 
             <Text onPress={() => pickImage()} className="text-blue-500 font-semibold m-5">Change</Text>
