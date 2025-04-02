@@ -31,7 +31,7 @@ const Search = () => {
   }, [searchQuery]);
 
   const handleSearch = (text: string) => {
-    setSearchQuery(text)
+    setSearchQuery(text);
   }
 
   return (
