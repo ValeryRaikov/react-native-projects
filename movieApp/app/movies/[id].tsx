@@ -1,14 +1,28 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import useFetch from '@/hooks/useFetch';
 import { fetchMovieDetails } from '@/services/api';
 import { icons } from '@/constants/icons';
 import MovieInfo from '@/components/MovieInfo';
+import { saveMovie } from '@/services/appwrite';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
   const { data: movie, loading } = useFetch(() => fetchMovieDetails(id as string));
+
+  const handleSaveMovie = async () => {
+    try {
+      if (!movie) 
+        return;
+
+      await saveMovie(movie);
+      Alert.alert('Success', 'Movie saved to your saved list.');
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Error', 'Could not save this movie.');
+    }
+  };
 
   return (
     <View className='bg-primary flex-1'>
@@ -21,6 +35,17 @@ const MovieDetails = () => {
             className='w-full h-[550px]' 
             resizeMode='stretch'
           />
+
+          <TouchableOpacity
+            className='absolute top-5 right-5 bg-dark-100 p-2 rounded-full z-10'
+            onPress={handleSaveMovie}
+          >
+            <Image 
+              source={icons.save} 
+              className='size-7' 
+              tintColor='#fff'
+            />
+          </TouchableOpacity>
         </View>
         <View className='flex-col items-start justify-center mt-5 px-5'>
           <Text className='text-white font-bold text-xl'>{movie?.title}</Text>

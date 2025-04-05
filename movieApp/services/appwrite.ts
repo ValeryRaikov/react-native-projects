@@ -2,6 +2,7 @@ import { Client, Databases, ID, Query } from 'react-native-appwrite'
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
+const SAVED_COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_SAVED_COLLECTION_ID!;
 
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
@@ -49,3 +50,45 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
         return undefined;
     }
 }
+
+export const saveMovie = async (movie: Movie) => {
+    try {
+        const alreadyExists = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID, [
+            Query.equal("movie_id", movie.id),
+        ]);
+  
+        if (alreadyExists.documents.length === 0) {
+            await database.createDocument(DATABASE_ID, SAVED_COLLECTION_ID, ID.unique(), {
+                movie_id: movie.id,
+                title: movie.title,
+                poster_url: movie.poster_path 
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
+                    : null,
+            });
+        } else {
+            return;
+        }
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
+
+export const getSavedMovies = async (): Promise<Movie[]> => {
+    try {
+        const response = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID);
+        return response.documents as unknown as Movie[];
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
+};
+
+export const unsaveMovie = async (docId: string) => {
+    try {
+        await database.deleteDocument(DATABASE_ID, SAVED_COLLECTION_ID, docId);
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
