@@ -1,26 +1,50 @@
 import { View, Text, Image, ScrollView, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import useFetch from '@/hooks/useFetch';
 import { fetchMovieDetails } from '@/services/api';
 import { icons } from '@/constants/icons';
 import MovieInfo from '@/components/MovieInfo';
-import { saveMovie } from '@/services/appwrite';
+import { checkIfMovieSaved, saveMovie } from '@/services/appwrite';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
   const { data: movie, loading } = useFetch(() => fetchMovieDetails(id as string));
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    const checkSaved = async () => {
+      if (!movie) 
+        return;
+      
+      try {
+        const isSaved = await checkIfMovieSaved(movie.id);
+        setSaved(isSaved);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    checkSaved();
+  }, [movie]);
 
   const handleSaveMovie = async () => {
     try {
       if (!movie) 
         return;
 
+      if (saved) {
+        Alert.alert('Already Saved', 'You have already saved this movie.');
+        return;
+      }
+
+      setSaved(true);
       await saveMovie(movie);
+
       Alert.alert('Success', 'Movie saved to your saved list.');
     } catch (err) {
       console.error(err);
-      Alert.alert('Error', 'Could not save this movie.');
+      Alert.alert('Error', 'Could not save this movie!');
     }
   };
 
@@ -37,7 +61,7 @@ const MovieDetails = () => {
           />
 
           <TouchableOpacity
-            className='absolute top-5 right-5 bg-dark-100 p-2 rounded-full z-10'
+            className='absolute top-5 right-5 bg-dark-100 p-2 rounded-full z-10 flex-row justify-center items-center gap-1'
             onPress={handleSaveMovie}
           >
             <Image 
@@ -45,6 +69,10 @@ const MovieDetails = () => {
               className='size-7' 
               tintColor='#fff'
             />
+            {saved 
+              ? <Text className='text-white font-semibold text-lg'>Saved</Text> 
+              : <Text className='text-white text-lg'>Save</Text>
+            }
           </TouchableOpacity>
         </View>
         <View className='flex-col items-start justify-center mt-5 px-5'>

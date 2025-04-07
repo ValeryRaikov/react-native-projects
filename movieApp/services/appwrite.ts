@@ -51,13 +51,24 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
     }
 }
 
+export const checkIfMovieSaved = async (movieId: number): Promise<boolean> => {
+  try {
+    const res = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID, [
+      Query.equal('movie_id', movieId),
+    ]);
+    
+    return res.documents.length > 0;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 export const saveMovie = async (movie: Movie) => {
     try {
-        const alreadyExists = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID, [
-            Query.equal("movie_id", movie.id),
-        ]);
+        const alreadySaved = await checkIfMovieSaved(movie.id);
   
-        if (alreadyExists.documents.length === 0) {
+        if (!alreadySaved) {
             await database.createDocument(DATABASE_ID, SAVED_COLLECTION_ID, ID.unique(), {
                 movie_id: movie.id,
                 title: movie.title,
