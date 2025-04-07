@@ -85,10 +85,10 @@ export const saveMovie = async (movie: Movie) => {
     }
 };
 
-export const getSavedMovies = async (): Promise<Movie[]> => {
+export const getSavedMovies = async (): Promise<AppwriteMovie[]> => {
     try {
         const response = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID);
-        return response.documents as unknown as Movie[];
+        return response.documents as unknown as AppwriteMovie[];
     } catch (err) {
         console.error(err);
         return [];

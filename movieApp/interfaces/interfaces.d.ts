@@ -75,3 +75,10 @@ interface TrendingCardProps {
   movie: TrendingMovie;
   index: number;
 }
+
+// Appwrite
+interface AppwriteMovie {
+  movie_id: number;
+  poster_url: URL;
+  title: string;
+}
