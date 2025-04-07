@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
+import { icons } from '@/constants/icons'
 
 const SavedMovieCard = ({ id, poster_path, title}: Movie) => {
   return (
@@ -15,6 +16,14 @@ const SavedMovieCard = ({ id, poster_path, title}: Movie) => {
                 className='w-full h-52 rounded-lg'
                 resizeMode='cover'
             />
+
+            <TouchableOpacity className='absolute top-1 right-1 p-1 bg-white rounded-full border-2 border-black'>
+                <Image 
+                    source={icons.trash}
+                    className='size-7'
+                    resizeMode="contain"
+                />
+            </TouchableOpacity>
 
             <Text className='text-sm font-bold text-white mt-2' numberOfLines={1}>{title}</Text>
         </TouchableOpacity>
