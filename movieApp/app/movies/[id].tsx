@@ -6,6 +6,7 @@ import { fetchMovieDetails } from '@/services/api';
 import { icons } from '@/constants/icons';
 import MovieInfo from '@/components/MovieInfo';
 import { checkIfMovieSaved, saveMovie } from '@/services/appwrite';
+import AlertModal from '@/components/AlertModal';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
@@ -15,6 +16,11 @@ const MovieDetails = () => {
     error, 
   } = useFetch(() => fetchMovieDetails(id as string));
   const [saved, setSaved] = useState(false);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalType, setModalType] = useState('info');
 
   useEffect(() => {
     const checkSaved = async () => {
@@ -32,23 +38,29 @@ const MovieDetails = () => {
     checkSaved();
   }, [movie]);
 
+  const showModal = (title: string, message: string, type = 'info') => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalType(type);
+    setModalVisible(true);
+  };
+
   const handleSaveMovie = async () => {
     try {
       if (!movie) 
         return;
 
       if (saved) {
-        Alert.alert('Already Saved', 'You have already saved this movie.');
+        showModal('Already Saved', 'You have already saved this movie.', 'warning');
         return;
       }
 
       setSaved(true);
       await saveMovie(movie);
-
-      Alert.alert('Success', 'Movie saved to your saved list.');
+      showModal('Success', 'Movie saved to your saved list.', 'success');
     } catch (err) {
       console.error(err);
-      Alert.alert('Error', 'Could not save this movie!');
+      showModal('Error', 'Could not save this movie!', 'error');
     }
   };
 
@@ -123,7 +135,7 @@ const MovieDetails = () => {
       </ScrollView>
 
       <TouchableOpacity 
-        className='absolute bottom-5 left-0 rigth-0 mx-5 bg-accent rounded-lg py-3.5 flex felx-row items-center justify-center z-50'
+        className='absolute bottom-5 left-0 rigth-0 mx-5 bg-accent rounded-lg py-3.5 felx-row items-center justify-center z-50'
         onPress={router.back}
         >
         <Image 
@@ -133,6 +145,15 @@ const MovieDetails = () => {
         />
         <Text className='text-white font-semibold text-base'>Go back</Text>
       </TouchableOpacity>
+
+      {modalVisible && 
+      <AlertModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+      />}
     </View>
   )
 }

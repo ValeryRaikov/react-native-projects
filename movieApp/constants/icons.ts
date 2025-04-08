@@ -7,6 +7,10 @@ import star from "@/assets/icons/star.png";
 import play from "@/assets/icons/play.png";
 import arrow from "@/assets/icons/arrow.png";
 import trash from "@/assets/icons/trash.png";
+import tick from "@/assets/icons/tick.png";
+import error from "@/assets/icons/error.png";
+import warning from "@/assets/icons/warning.png";
+import info from "@/assets/icons/info.png";
 
 export const icons = {
   home,
@@ -18,4 +22,8 @@ export const icons = {
   play,
   arrow,
   trash,
+  tick,
+  error,
+  warning,
+  info,
 };
