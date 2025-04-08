@@ -12,6 +12,7 @@ const Profile = () => {
           tintColor='#fff'
         />
         <Text className='text-gray-500 text-base'>Profile</Text>
+        <Text className='text-gray-500 text-center text-xl font-semibold'>Currently you are logged in as guest!</Text>
       </View>
     </View>
   )
