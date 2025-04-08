@@ -38,6 +38,11 @@ const MovieDetails = () => {
     checkSaved();
   }, [movie]);
 
+  useEffect(() => {
+    if (error)
+      showModal('Error', error.message || 'Something went wrong while loading movie details.', 'error');
+  }, [error]);
+
   const showModal = (title: string, message: string, type = 'info') => {
     setModalTitle(title);
     setModalMessage(message);
@@ -71,9 +76,7 @@ const MovieDetails = () => {
       }}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
-        ) : error ? (
-          <Text>Error: {error?.message}</Text>
-        ) : (
+        ) : movie ? (
           <>
             <View>
               <Image 
@@ -116,21 +119,21 @@ const MovieDetails = () => {
                 </Text>
               </View>
 
-            <MovieInfo label='Overview' value={movie?.overview} />
-            <MovieInfo label='Genres' value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
+              <MovieInfo label='Overview' value={movie?.overview} />
+              <MovieInfo label='Genres' value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
               
-            <View className='flex flex-row justify-between w-1/2'>
-              <MovieInfo label='Budget' value={`$${movie?.budget / 1000000} million`} />
-              <MovieInfo label='Revenue' value={`$${Math.round(movie?.revenue) / 1000000} million`} />
-            </View>
+              <View className='flex flex-row justify-between w-1/2'>
+                <MovieInfo label='Budget' value={`$${movie?.budget / 1000000} million`} />
+                <MovieInfo label='Revenue' value={`$${Math.round(movie?.revenue) / 1000000} million`} />
+              </View>
 
-            <MovieInfo 
-              label='Production Companies' 
-              value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'} 
-            />
-          </View>
-        </>
-        )}
+              <MovieInfo 
+                label='Production Companies' 
+                value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'} 
+              />
+            </View>
+          </>
+        ) : null}
         
       </ScrollView>
 
@@ -147,13 +150,14 @@ const MovieDetails = () => {
       </TouchableOpacity>
 
       {modalVisible && 
-      <AlertModal 
-        visible={modalVisible} 
-        onClose={() => setModalVisible(false)}
-        title={modalTitle}
-        message={modalMessage}
-        type={modalType}
-      />}
+        <AlertModal 
+          visible={modalVisible} 
+          onClose={() => setModalVisible(false)}
+          title={modalTitle}
+          message={modalMessage}
+          type={modalType}
+        />
+      }
     </View>
   )
 }

@@ -3,7 +3,15 @@ import React from 'react'
 import { Link } from 'expo-router'
 import { icons } from '@/constants/icons'
 
-const SavedMovieCard = ({ id, poster_path, title}: Movie) => {
+type Props = {
+    id: string | number
+    docId?: string
+    poster_path: string
+    title: string
+    onDelete?: () => void
+  }
+
+const SavedMovieCard = ({ id, poster_path, title, onDelete}: Props) => {
   return (
     <Link href={`/movies/${id}`} asChild>
         <TouchableOpacity className='w-[30%]'>
@@ -17,7 +25,10 @@ const SavedMovieCard = ({ id, poster_path, title}: Movie) => {
                 resizeMode='cover'
             />
 
-            <TouchableOpacity className='absolute top-1 right-1 p-1 bg-white rounded-full border-2 border-black'>
+            <TouchableOpacity 
+                onPress={onDelete} 
+                className='absolute top-1 right-1 p-1 bg-white rounded-full border-2 border-black'
+            >
                 <Image 
                     source={icons.trash}
                     className='size-7'
