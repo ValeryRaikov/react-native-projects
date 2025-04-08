@@ -1,12 +1,13 @@
-import { View, Text, Image, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { router, useLocalSearchParams } from 'expo-router'
+import {useLocalSearchParams } from 'expo-router'
 import useFetch from '@/hooks/useFetch';
 import { fetchMovieDetails } from '@/services/api';
 import { icons } from '@/constants/icons';
 import MovieInfo from '@/components/MovieInfo';
 import { checkIfMovieSaved, saveMovie } from '@/services/appwrite';
 import AlertModal from '@/components/AlertModal';
+import GoBack from '@/components/GoBack';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
@@ -137,17 +138,7 @@ const MovieDetails = () => {
         
       </ScrollView>
 
-      <TouchableOpacity 
-        className='absolute bottom-5 left-0 rigth-0 mx-5 bg-accent rounded-lg py-3.5 felx-row items-center justify-center z-50'
-        onPress={router.back}
-        >
-        <Image 
-          source={icons.arrow}
-          className='size-5 mr-1 mt-0.5 rotate-180'
-          tintColor='#fff'
-        />
-        <Text className='text-white font-semibold text-base'>Go back</Text>
-      </TouchableOpacity>
+      <GoBack />
 
       {modalVisible && 
         <AlertModal 

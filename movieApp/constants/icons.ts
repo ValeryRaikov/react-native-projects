@@ -11,6 +11,7 @@ import tick from "@/assets/icons/tick.png";
 import error from "@/assets/icons/error.png";
 import warning from "@/assets/icons/warning.png";
 import info from "@/assets/icons/info.png";
+import bg from "@/assets/icons/bg.png";
 
 export const icons = {
   home,
@@ -26,4 +27,5 @@ export const icons = {
   error,
   warning,
   info,
+  bg,
 };

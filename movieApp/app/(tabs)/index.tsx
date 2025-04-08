@@ -1,7 +1,7 @@
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from 'expo-router';
 import useFetch from "@/hooks/useFetch";
 import { fetchMovies } from "@/services/api";
@@ -35,6 +35,13 @@ export default function Index() {
           }}
           className="flex-1 px-5"
         >
+          <TouchableOpacity 
+            onPress={() => router.push('/bg-movies')}
+            className='absolute top-2 right-2 p-2 flex-row justify-center items-center gap-2 bg-black rounded-full'
+          >
+            <Image source={icons.bg} className="size-8" resizeMode="contain"/>
+            <Text className="text-white text-lg font-semibold">BG</Text>
+          </TouchableOpacity>
           <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
           {moviesLoading || trendingLoading ? (

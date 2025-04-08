@@ -12,6 +12,10 @@ export default function RootLayout() {
           name="(tabs)"
           options={{ headerShown: false, }}
         />
+        <Stack.Screen 
+          name="bg-movies" 
+          options={{ headerShown: false }} 
+        />
         <Stack.Screen
           name="movies/[id]"
           options={{ headerShown: false, }}
