@@ -139,7 +139,6 @@ export const getCurrentUser = async () => {
         return null;
     }
 };
-  
 
 export const signUp = async (email: string, username: string, password: string) => {
     try {

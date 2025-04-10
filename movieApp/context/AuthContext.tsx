@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentUser } from '../services/appwrite';
+import * as SecureStore from 'expo-secure-store';
+import { getCurrentUser, logout as appwriteLogout } from '../services/appwrite';
 
 const AuthContext = createContext<any>(null);
 
@@ -8,14 +9,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCurrentUser().then((user) => {
-      setUser(user);
-      setLoading(false);
-    });
+    const loadUser = async () => {
+        try {
+          const storedSession = await SecureStore.getItemAsync('session');
+          if (storedSession) {
+            const currentUser = await getCurrentUser();
+            setUser(currentUser);
+          }
+        } catch (error) {
+          console.log('AuthContext load error:', error);
+          setUser(null);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      loadUser();
   }, []);
 
+  const logout = async () => {
+    await appwriteLogout();
+    await SecureStore.deleteItemAsync('session');
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
