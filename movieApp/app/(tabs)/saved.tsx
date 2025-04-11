@@ -73,7 +73,7 @@ const Saved = () => {
                   <Text className="text-center text-xl text-white mt-10">No saved movies yet!</Text>
                 ) : (
                   <FlatList
-                    data={initialSavedMovies}
+                    data={savedMovies}
                     renderItem={({ item }) => {
                       const mappedMovie = {
                         id: item.movie_id,
