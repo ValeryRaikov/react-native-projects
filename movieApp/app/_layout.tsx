@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import "./global.css";
 import { StatusBar } from "react-native";
 import { AuthProvider, useAuth } from "../context/AuthContext";
+import { SavedMoviesProvider } from "@/context/SavedMoviesContext";
 
 const AuthAwareLayout = () => {
   const { user, loading } = useAuth();
@@ -41,8 +42,10 @@ const AuthAwareLayout = () => {
 const RootLayout = () => {
   return (
     <AuthProvider>
-      <StatusBar hidden />
-      <AuthAwareLayout />
+      <SavedMoviesProvider>
+        <StatusBar hidden />
+        <AuthAwareLayout />
+      </SavedMoviesProvider>
     </AuthProvider>
   )
 }
