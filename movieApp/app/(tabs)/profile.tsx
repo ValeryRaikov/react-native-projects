@@ -1,22 +1,32 @@
 import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { icons } from '@/constants/icons'
-import { getCurrentUser } from '@/services/appwrite';
+import { getCurrentUser, logout } from '@/services/appwrite';
+import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
 
 const Profile = () => {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, setUser, loading } = useAuth();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const currentUser = await getCurrentUser()
-      setUser(currentUser)
-      setLoading(false)
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
     }
-
-    fetchUser()
+  
+    fetchUser();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setUser(null);          
+      router.replace('/(auth)');
+    } catch (err) {
+      alert('Failed to log out. Please try again.');
+      console.error(err);
+    }
+  };
 
   if (loading) {
     return (
@@ -41,16 +51,16 @@ const Profile = () => {
               <Text className='text-xl font-semibold text-white text-center'>
                 {user.name}
               </Text>
-              <Text className='text-light-200 text-center'>
+              <Text className='text-lg font-semibold text-light-200 text-center'>
                 {user.email}
               </Text>
             </View>
 
             <TouchableOpacity
               className="w-full py-3 px-4 rounded-lg"
-              onPress={() => router.replace('/(auth)')}
+              onPress={handleLogout}
             >
-              <Text className="text-white text-center font-semibold text-lg">Logout</Text>
+              <Text className="text-2xl font-semibold text-light-100 text-center">Logout</Text>
             </TouchableOpacity>
           </>
         ) : (

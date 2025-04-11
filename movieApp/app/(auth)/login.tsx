@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import { login } from '../../services/appwrite';
-import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router';
 import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
@@ -11,7 +10,6 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setUser } = useAuth();
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -21,9 +19,9 @@ const LoginScreen = () => {
     }
 
     setLoading(true);
+    
     try {
-      const user = await login(email, password);
-      setUser(user);
+      await login(email, password);
       router.replace('/(tabs)');
     } catch (err) {
       console.error(err);

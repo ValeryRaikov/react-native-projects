@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import { signUp } from '../../services/appwrite';
-import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router';
 import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
@@ -11,20 +10,25 @@ const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setUser } = useAuth();
   const router = useRouter();
 
   const handleSignup = async () => {
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !confirmPassword) {
       alert('Please fill in all required fields');
       return;
     }
 
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     setLoading(true);
+    
     try {
-      const user = await signUp(email, password, username);
-      setUser(user);
+      await signUp(email, password, username);
       router.replace('/(tabs)');
     } catch (err) {
       console.error(err);
@@ -77,7 +81,7 @@ const SignUpScreen = () => {
             />
           </View>
           
-          <View className="space-y-2">
+          <View className="space-y-2 mb-2">
             <Text className="text-light-200 text-lg">Password</Text>
             <TextInput
               className="w-full bg-secondary-100 py-3 px-4 border-2 border-light-200 rounded-lg text-light-200 text-md"
@@ -89,6 +93,16 @@ const SignUpScreen = () => {
               autoCapitalize="none"
             />
           </View>
+
+          <TextInput
+              className="w-full bg-secondary-100 py-3 px-4 border-2 border-light-200 rounded-lg text-light-200 text-md"
+              placeholder="Repeat password"
+              placeholderTextColor="#A8B5DB"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+              autoCapitalize="none"
+            />
         </View>
         
         <TouchableOpacity

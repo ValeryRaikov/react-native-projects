@@ -4,7 +4,6 @@ import * as SecureStore from 'expo-secure-store';
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
 const SAVED_COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_SAVED_COLLECTION_ID!;
-const USERS_COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_USERS_COLLECTION_ID!;
 
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
@@ -110,101 +109,61 @@ export const unsaveMovie = async (docId: string) => {
 // AUTH FUNCTIONS
 export const restoreSession = async () => {
     try {
-      const sessionData = await SecureStore.getItemAsync('session');
-      if (!sessionData) 
-        return null;
-  
-      const user = await account.get();
-      
-      return user;
+        return await account.get();
     } catch (err) {
-      console.log('Session restore error:', err);
-      return null;
+        console.log('Session restore error:', err);
+        return null;
     }
-  };
-  
+}
+
 export const logout = async () => {
     try {
         await account.deleteSession('current');
-        await SecureStore.deleteItemAsync('session');
     } catch (err) {
         console.error('Logout error:', err);
+        throw err;
     }
-};
-  
+}
+
 export const getCurrentUser = async () => {
     try {
         return await account.get();
     } catch {
         return null;
     }
-};
+}
 
-export const signUp = async (email: string, username: string, password: string) => {
+export const signUp = async (email: string, password: string, username: string) => {
     try {
-        const newUser = await account.create(ID.unique(), email, password, username);
-        await account.createEmailPasswordSession(email, password);
-        const user = await account.get();
-
-        await createUserDocument(user.$id, username, email);
-
-        await SecureStore.setItemAsync('session', JSON.stringify({
-            userId: user.$id,
-            email: user.email,
-            name: user.name
-        }));
-
-        return user;
-    } catch (err) {
-        console.error('Signup error:', err);
-        throw err;
-    }
-};
+      try {
+        await account.deleteSession('current');
+      } catch (deleteError) {}
   
+      const user = await account.create(
+        ID.unique(),
+        email,
+        password,
+        username
+      );
+      
+      await account.createEmailPasswordSession(email, password);
+      return user;
+    } catch (err) {
+      console.error('Signup error:', err);
+      throw err;
+    }
+}
+
 export const login = async (email: string, password: string) => {
     try {
-        await account.createEmailPasswordSession(email, password);
-        const user = await account.get();
-
-        await SecureStore.setItemAsync('session', JSON.stringify({
-            userId: user.$id,
-            email: user.email,
-            name: user.name
-        }));
-
-        return user;
+      try {
+        await account.deleteSession('current');
+      } catch (deleteError) {}
+      
+      await account.createEmailPasswordSession(email, password);
+      return await account.get();
     } catch (err) {
-        console.error('Login error:', err);
-        throw err;
+      console.error('Login error:', err);
+      throw err;
     }
-};
-  
-export const updateAvatar = async (userId: string, avatarUrl: string) => {
-    try {
-        await database.updateDocument(
-            DATABASE_ID,
-            USERS_COLLECTION_ID,
-            userId,
-            { avatarUrl }
-        );
-
-        return true;
-    } catch (err) {
-        console.error('Avatar update error:', err);
-        throw new Error('Failed to update avatar');
-    }
-};
-
-const createUserDocument = async (userId: string, username: string, email: string) => {
-    try {
-        await database.createDocument(
-            DATABASE_ID,
-            USERS_COLLECTION_ID,
-            userId,
-            { username, email }
-        );
-    } catch (err) {
-        console.error('Document creation error:', err);
-        throw new Error('Failed to create user profile');
-    }
-};
+}
