@@ -8,9 +8,12 @@ import MovieInfo from '@/components/MovieInfo';
 import { checkIfMovieSaved, saveMovie } from '@/services/appwrite';
 import AlertModal from '@/components/AlertModal';
 import GoBack from '@/components/GoBack';
+import { useAuth } from '@/context/AuthContext';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
+  const { user } = useAuth();
+
   const { 
     data: movie, 
     loading,
@@ -86,20 +89,23 @@ const MovieDetails = () => {
                 resizeMode='stretch'
               />
 
-              <TouchableOpacity
-                className='absolute top-5 right-5 bg-dark-100 p-2 rounded-full z-10 flex-row justify-center items-center gap-1'
-                onPress={handleSaveMovie}
-              >
-                <Image 
-                  source={icons.save} 
-                  className='size-7' 
-                  tintColor='#fff'
-                />
-                {saved 
-                  ? <Text className='text-white font-semibold text-lg'>Saved</Text> 
-                  : <Text className='text-white text-lg'>Save</Text>
-                }
-              </TouchableOpacity>
+              {user &&
+                <TouchableOpacity
+                  className='absolute top-5 right-5 bg-dark-100 p-2 rounded-full z-10 flex-row justify-center items-center gap-1'
+                  onPress={handleSaveMovie}
+                >
+                  <Image 
+                    source={icons.save} 
+                    className='size-7' 
+                    tintColor='#fff'
+                  />
+                  {saved 
+                    ? <Text className='text-white font-semibold text-lg'>Saved</Text> 
+                    : <Text className='text-white text-lg'>Save</Text>
+                  }
+                </TouchableOpacity>
+              }
+              
             </View>
             <View className='flex-col items-start justify-center mt-5 px-5'>
               <Text className='text-white font-bold text-xl'>{movie?.title}</Text>
