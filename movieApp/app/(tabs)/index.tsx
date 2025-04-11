@@ -8,9 +8,11 @@ import { fetchMovies } from "@/services/api";
 import MovieCard from "@/components/MovieCard";
 import { getTrendingMovies } from "@/services/appwrite";
 import TrendingCard from "@/components/TrendingCard";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Index() {
   const router = useRouter();
+  const { user } = useAuth();
 
   const {
     data: trendingMovies,
@@ -35,6 +37,16 @@ export default function Index() {
           }}
           className="flex-1 px-5"
         >
+          {user && 
+            <TouchableOpacity
+              className="absolute top-2 left-2 p-2 flex-row justify-center items-center gap-2 bg-light-100 rounded-full"
+              onPress={() => router.push('/(tabs)/profile')}
+            >
+              <Text className='text-secondary font-semibold text-lg'>
+                {user.name}
+              </Text>
+            </TouchableOpacity>
+          }
           <TouchableOpacity 
             onPress={() => router.push('/bg-movies')}
             className='absolute top-2 right-2 p-2 flex-row justify-center items-center gap-2 bg-black rounded-full'

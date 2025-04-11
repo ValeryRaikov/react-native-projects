@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
-import { signUp } from '../../services/appwrite';
+import { signUp } from '@/services/appwrite';
 import { useRouter } from 'expo-router';
 import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
