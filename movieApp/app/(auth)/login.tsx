@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
 import GoBack from '@/components/GoBack';
+import { useTranslation } from 'react-i18next';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -12,9 +13,11 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const { t } = useTranslation();
+
   const handleLogin = async () => {
     if (!email || !password) {
-      alert('Please fill in all fields');
+      alert(t('Please fill in all fields!'));
       return;
     }
 
@@ -25,7 +28,7 @@ const LoginScreen = () => {
       router.replace('/(tabs)');
     } catch (err) {
       console.error(err);
-      alert('Login failed. Please try again.');
+      alert(t('Login failed. Please try again.'));
     } finally {
       setLoading(false);
     }
@@ -45,15 +48,15 @@ const LoginScreen = () => {
         />
         
         <Text className='text-light-100 text-center font-semibold text-3xl mb-10'>
-          Welcome back
+          {t('Welcome back')}
         </Text>
         
         <View className="space-y-4 mb-6">
           <View className="space-y-2 mb-2">
-            <Text className="text-light-200 text-lg">Email</Text>
+            <Text className="text-light-200 text-lg">{t('Email')}</Text>
             <TextInput
               className="w-full bg-secondary-100 py-3 px-4 border-2 border-light-200 rounded-lg text-light-200 text-md"
-              placeholder="Enter your email"
+              placeholder={t('Enter your email')}
               placeholderTextColor="#A8B5DB"
               value={email}
               onChangeText={setEmail}
@@ -63,10 +66,10 @@ const LoginScreen = () => {
           </View>
           
           <View className="space-y-2">
-            <Text className="text-light-200 text-lg">Password</Text>
+            <Text className="text-light-200 text-lg">{t('Password')}</Text>
             <TextInput
               className="w-full bg-secondary-100 py-3 px-4 border-2 border-light-200 rounded-lg text-light-200 text-md"
-              placeholder="Enter your password"
+              placeholder={t('Enter your password')}
               placeholderTextColor="#A8B5DB"
               value={password}
               onChangeText={setPassword}
@@ -82,16 +85,16 @@ const LoginScreen = () => {
           disabled={loading}
         >
           {loading ? (
-            <Text className="text-secondary text-center font-bold text-xl">Loading...</Text>
+            <Text className="text-secondary text-center font-bold text-xl">{t('Loading')}...</Text>
           ) : (
-            <Text className="text-secondary text-center font-bold text-xl">Login</Text>
+            <Text className="text-secondary text-center font-bold text-xl">{t('Login')}</Text>
           )}
         </TouchableOpacity>
         
         <View className="flex-row justify-center items-center mt-4">
-          <Text className="text-light-100 text-xl">Don't have an account? </Text>
+          <Text className="text-light-100 text-xl">{t("Don't have an account?")} </Text>
           <TouchableOpacity onPress={() => router.push('/(auth)/signup')}>
-            <Text className="text-white font-semibold text-xl">Sign Up</Text>
+            <Text className="text-white font-semibold text-xl">{t('Sign Up')}</Text>
           </TouchableOpacity>
         </View>
 

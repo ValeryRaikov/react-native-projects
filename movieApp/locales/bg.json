@@ -2,5 +2,26 @@
     "Welcome to movieApp": "Добре дошли в movieApp",
     "Login": "Вход",
     "Sign Up": "Регистрация",
-    "Continue as Guest": "Продължете като гост"
+    "Continue as Guest": "Продължете като гост",
+
+    "Welcome back": "Добре дошли отново",
+    "Email": "Имейл",
+    "Password": "Парола",
+    "Loading": "Зареждане",
+    "Don't have an account?": "Все още нямате профил?",
+    "Enter your email": "Въведете имейл",
+    "Enter your password": "Въведете парола",
+    "Please fill in all fields!": "Моля попълнете всички полета",
+    "Login failed. Please try again.": "Неуспешен вход. Опитайте отново.",
+
+    "Please fill in all required fields": "Моля попълнете всички полета",
+    "Passwords do not match": "Различие в паролите",
+    "Signup failed. Please try again.": "Неуспешна регистрация. Опитайте отново.",
+    "Create Account": "Създайте профил",
+    "Username": "Потребителско име",
+    "Enter your username": "Въведете потребителско име",
+    "Create a password": "Създайте парола",
+    "Repeat password": "Повторете паролата",
+    "Creating account": "Профилът се създава",
+    "Already have an account?": "Вече имате съществуващ профил?"
 }

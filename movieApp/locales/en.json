@@ -2,5 +2,27 @@
     "Welcome to movieApp": "Welcome to movieApp",
     "Login": "Login",
     "Sign Up": "Sign Up",
-    "Continue as Guest": "Continue as Guest"
+    "Continue as Guest": "Continue as Guest",
+
+    "Welcome back": "Welcome back",
+    "Email": "Email",
+    "Password": "Password",
+    "Loading": "Loading",
+    "Don't have an account?": "Don't have an account?",
+    "Enter your email": "Enter your email",
+    "Enter your password": "Enter your password",
+    "Please fill in all fields!": "Please fill in all fields!",
+    "Login failed. Please try again.": "Login failed. Please try again.",
+
+    "Please fill in all required fields": "Please fill in all required fields",
+    "Passwords do not match": "Passwords do not match",
+    "Signup failed. Please try again.": "Signup failed. Please try again.",
+    "Create Account": "Create Account",
+    "Username": "Username",
+    "Enter your username": "Enter your username",
+    "Create a password": "Create a password",
+    "Repeat password": "Repeat password",
+    "Creating account": "Creating account",
+    "Already have an account?": "Already have an account?"
+
 }
