@@ -37,7 +37,7 @@ const BulgarianMovies = () => {
           {loading ? (
             <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
           ) : error ? (
-            <Text>Error: {error?.message}</Text>
+            <Text>Грешка: {error?.message}</Text>
           ) : (
             <View className="flex-1 mt-5">
               {bgMovies && (

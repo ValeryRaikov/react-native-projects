@@ -50,5 +50,22 @@
     "Search your movie": "Потърсете желан от Вас филм",
     "Search results for": "Резултати от търсенето на",
     "No movies found!": "Няма намерени филми!",
-    "Search for a movie": "Потърсете някой филм"
+    "Search for a movie": "Потърсете някой филм",
+
+    "Something went wrong while loading movie details.": "Нещо се провали при опит да се достъпят детайлите за филма.",
+    "Already Saved": "Вече запазен",
+    "You have already saved this movie.": "Вече сте запазили този филм.",
+    "Success": "Успех",
+    "Movie saved to your saved list.": "Филмът е запазен към колекцията",
+    "Could not save this movie!": "Филмът не можа да бъде запазен!",
+    "SavedM": "Запазен",
+    "Save": "Запази",
+    "minutes": "минути",
+    "votes": "гласа",
+    "million": "милиона",
+    "Overview": "Преглед",
+    "Genres": "Жанрове",
+    "Budget": "Бюджет",
+    "Revenue": "Приходи",
+    "Production Companies": "Компании продуценти"
 }

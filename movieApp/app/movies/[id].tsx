@@ -9,6 +9,7 @@ import { checkIfMovieSaved, saveMovie } from '@/services/appwrite';
 import AlertModal from '@/components/AlertModal';
 import GoBack from '@/components/GoBack';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
@@ -25,6 +26,8 @@ const MovieDetails = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [modalType, setModalType] = useState('info');
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const checkSaved = async () => {
@@ -44,7 +47,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     if (error)
-      showModal('Error', error.message || 'Something went wrong while loading movie details.', 'error');
+      showModal(t('Error'), error.message || t('Something went wrong while loading movie details.'), 'error');
   }, [error]);
 
   const showModal = (title: string, message: string, type = 'info') => {
@@ -60,16 +63,16 @@ const MovieDetails = () => {
         return;
 
       if (saved) {
-        showModal('Already Saved', 'You have already saved this movie.', 'warning');
+        showModal(t('Already Saved'), t('You have already saved this movie.'), 'warning');
         return;
       }
 
       setSaved(true);
       await saveMovie(movie);
-      showModal('Success', 'Movie saved to your saved list.', 'success');
+      showModal(t('Success'), t('Movie saved to your saved list.'), 'success');
     } catch (err) {
       console.error(err);
-      showModal('Error', 'Could not save this movie!', 'error');
+      showModal(t('Error'), t('Could not save this movie!'), 'error');
     }
   };
 
@@ -100,8 +103,8 @@ const MovieDetails = () => {
                     tintColor='#fff'
                   />
                   {saved 
-                    ? <Text className='text-white font-semibold text-lg'>Saved</Text> 
-                    : <Text className='text-white text-lg'>Save</Text>
+                    ? <Text className='text-white font-semibold text-lg'>{t('SavedM')}</Text> 
+                    : <Text className='text-white text-lg'>{t('Save')}</Text>
                   }
                 </TouchableOpacity>
               }
@@ -111,7 +114,7 @@ const MovieDetails = () => {
               <Text className='text-white font-bold text-xl'>{movie?.title}</Text>
               <View className='flex-row items-center gap-x-1 mt-2'>
                 <Text className='text-light-200 text-sm'>{movie?.release_date?.split('-')[0]}</Text>
-                <Text className='text-light-200 text-sm'>{movie?.runtime} minutes</Text>
+                <Text className='text-light-200 text-sm'>{movie?.runtime} {t('minutes')}</Text>
               </View>
               <View className='flex-row items-center bg-dark-100 px-2 py-1 rounded-md gap-x-1 mt-2'>
                 <Image
@@ -122,20 +125,20 @@ const MovieDetails = () => {
                   {Math.round(movie?.vote_average ?? 0)} /10
                 </Text>
                 <Text className='text-light-200 text-sm'>
-                  {movie?.vote_count} votes
+                  {movie?.vote_count} {t('votes')}
                 </Text>
               </View>
 
-              <MovieInfo label='Overview' value={movie?.overview} />
-              <MovieInfo label='Genres' value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
+              <MovieInfo label={t('Overview')} value={movie?.overview} />
+              <MovieInfo label={t('Genres')} value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
               
               <View className='flex flex-row justify-between w-1/2'>
-                <MovieInfo label='Budget' value={`$${movie?.budget / 1000000} million`} />
-                <MovieInfo label='Revenue' value={`$${Math.round(movie?.revenue) / 1000000} million`} />
+                <MovieInfo label={t('Budget')} value={`$${movie?.budget / 1000000} ${t('million')} `} />
+                <MovieInfo label={t('Revenue')} value={`$${Math.round(movie?.revenue) / 1000000} ${t('million')} `} />
               </View>
 
               <MovieInfo 
-                label='Production Companies' 
+                label={t('Production Companies')}
                 value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'} 
               />
             </View>
