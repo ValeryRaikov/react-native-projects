@@ -2,8 +2,11 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 import { icons } from '@/constants/icons'
+import { useTranslation } from 'react-i18next'
 
 const MovieCard = ({ id, poster_path, title, vote_average, release_date }: Movie) => {
+  const { t } = useTranslation();
+
   return (
     <Link href={`/movies/${id}`} asChild>
         <TouchableOpacity className='w-[30%]'>
@@ -31,7 +34,7 @@ const MovieCard = ({ id, poster_path, title, vote_average, release_date }: Movie
                     {release_date?.split('-')[0]}
                 </Text>
                 <Text className='text-ss font-medium text-light-300'>
-                    Movie
+                    {t('Movie')}
                 </Text>
             </View>
         </TouchableOpacity>

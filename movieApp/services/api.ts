@@ -1,3 +1,5 @@
+import i18n from '@/services/i18n';
+
 export const TMDB_CONFIG = {
     BASE_URL: 'https://api.themoviedb.org/3',
     API_KEY: process.env.EXPO_PUBLIC_MOVIE_API_KEY,
@@ -28,8 +30,10 @@ export const fetchMovies = async ({ query }: { query: string }) => {
 }
 
 export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
+    const language = i18n.language === 'bg' ? 'bg-BG' : 'en-US';
+    
     try {
-        const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+        const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}&language=${language}`, {
             method: 'GET',
             headers: TMDB_CONFIG.headers,
         });
@@ -50,7 +54,7 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
 export const fetchBulgarianMovies = async () => {
     try {
         const response = await fetch(
-            `${TMDB_CONFIG.BASE_URL}/discover/movie?language=en-US&with_original_language=bg&sort_by=popularity.desc&api_key=${TMDB_CONFIG.API_KEY}`, {
+            `${TMDB_CONFIG.BASE_URL}/discover/movie?language=bg-Bg&with_original_language=bg&sort_by=popularity.desc&api_key=${TMDB_CONFIG.API_KEY}`, {
             method: 'GET',
             headers: TMDB_CONFIG.headers,
         });
