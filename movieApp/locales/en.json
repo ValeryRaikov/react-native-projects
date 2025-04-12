@@ -23,6 +23,33 @@
     "Create a password": "Create a password",
     "Repeat password": "Repeat password",
     "Creating account": "Creating account",
-    "Already have an account?": "Already have an account?"
+    "Already have an account?": "Already have an account?",
+
+    "Home": "Home",
+    "Search": "Search",
+    "Saved": "Saved",
+    "Profile": "Profile",
+
+    "BG": "BG",
+    "Error": "Error",
+    "Trending Movies": "Trending Movies",
+    "Latest Movies": "Latest Movies",
+
+    "Failed to log out. Please try again.": "Failed to log out. Please try again.",
+    "Logout": "Logout",
+    "Currently you are logged in as guest!": "Currently you are logged in as guest!",
+
+    "Something went wrong while fetching saved movies.": "Something went wrong while fetching saved movies.",
+    "Deleted": "Deleted",
+    "Movie removed from your saved list.": "Movie removed from your saved list.",
+    "Failed to remove movie from saved list.": "Failed to remove movie from saved list.",
+    "You have to be logged in to save movies!": "You have to be logged in to save movies!",
+    "Your Saved Movies": "Your Saved Movies",
+    "No saved movies yet!": "No saved movies yet!",
+
+    "Search your movie": "Search your movie",
+    "Search results for": "Search results for",
+    "No movies found!": "No movies found!",
+    "Search for a movie": "Search for a movie"
 
 }

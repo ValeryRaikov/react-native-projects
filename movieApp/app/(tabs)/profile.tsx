@@ -4,9 +4,12 @@ import { icons } from '@/constants/icons'
 import { getCurrentUser, logout } from '@/services/appwrite';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
   const { user, setUser, loading } = useAuth();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,7 +26,7 @@ const Profile = () => {
       setUser(null);          
       router.replace('/(auth)');
     } catch (err) {
-      alert('Failed to log out. Please try again.');
+      alert(t('Failed to log out. Please try again.'));
       console.error(err);
     }
   };
@@ -60,27 +63,27 @@ const Profile = () => {
               className="w-full py-3 px-4 rounded-lg"
               onPress={handleLogout}
             >
-              <Text className="text-2xl font-semibold text-light-100 text-center">Logout</Text>
+              <Text className="text-2xl font-semibold text-light-100 text-center">{t('Logout')}</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
             <Text className='text-light-200 text-center text-xl'>
-              Currently you are logged in as guest!
+              {t('Currently you are logged in as guest!')}
             </Text>
 
             <TouchableOpacity
               className="w-full bg-secondary-100 py-3 px-4 rounded-lg border-2 border-white"
               onPress={() => router.push('/(auth)/login')}
             >
-              <Text className="text-white text-center font-semibold text-lg">Login</Text>
+              <Text className="text-white text-center font-semibold text-lg">{t('Login')}</Text>
             </TouchableOpacity>
             
             <TouchableOpacity
               className="w-full bg-white py-3 px-4 rounded-lg border-2 border-secondary-100"
               onPress={() => router.push('/(auth)/signup')}
             >
-              <Text className="text-secondary-100 text-center font-semibold text-lg">Sign Up</Text>
+              <Text className="text-secondary-100 text-center font-semibold text-lg">{t('Sign Up')}</Text>
             </TouchableOpacity>
           </>
         )}

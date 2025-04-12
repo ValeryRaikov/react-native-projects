@@ -9,6 +9,7 @@ import MovieCard from "@/components/MovieCard";
 import { getTrendingMovies } from "@/services/appwrite";
 import TrendingCard from "@/components/TrendingCard";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export default function Index() {
   const router = useRouter();
@@ -25,6 +26,8 @@ export default function Index() {
     loading: moviesLoading, 
     error: moviesError, 
   } = useFetch(() => fetchMovies({ query: '' }));
+
+  const { t } = useTranslation();
 
   return (
     <View className="flex-1 bg-primary">
@@ -52,21 +55,21 @@ export default function Index() {
             className='absolute top-2 right-2 p-2 flex-row justify-center items-center gap-2 bg-black rounded-full'
           >
             <Image source={icons.bg} className="size-8" resizeMode="contain"/>
-            <Text className="text-white text-lg font-semibold">BG</Text>
+            <Text className="text-white text-lg font-semibold">{t('BG')}</Text>
           </TouchableOpacity>
           <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
           {moviesLoading || trendingLoading ? (
             <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
           ) : moviesError || trendingError ? (
-              <Text>Error: {moviesError?.message || trendingError?.message}</Text>
+              <Text>{t('Error')}: {moviesError?.message || trendingError?.message}</Text>
             ) : (
             <View className="flex-1 mt-5">
-              <SearchBar onPress={() => router.push("/search")} placeholder="Search for a movie" />
+              <SearchBar onPress={() => router.push("/search")} placeholder={t('Search for a movie')} />
                 {trendingMovies && (
                   <>
                     <View className="mt-10">
-                      <Text className="text-lg text-white font-bold mb-3">Trending Movies</Text>
+                      <Text className="text-lg text-white font-bold mb-3">{t('Trending Movies')}</Text>
                     </View>
 
                     <FlatList
@@ -83,7 +86,7 @@ export default function Index() {
                   </>
                 )}
                 <>
-                  <Text className="text-lg text-white font-bold mt-5 mb-3">Latest Movies</Text>
+                  <Text className="text-lg text-white font-bold mt-5 mb-3">{t('Latest Movies')}</Text>
 
                   <FlatList
                     data={movies}

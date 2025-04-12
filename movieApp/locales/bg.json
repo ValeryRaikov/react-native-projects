@@ -23,5 +23,32 @@
     "Create a password": "Създайте парола",
     "Repeat password": "Повторете паролата",
     "Creating account": "Профилът се създава",
-    "Already have an account?": "Вече имате съществуващ профил?"
+    "Already have an account?": "Вече имате съществуващ профил?",
+
+    "Home": "Основен",
+    "Search": "Търси",
+    "Saved": "Запазени",
+    "Profile": "Профил",
+
+    "BG": "БГ",
+    "Error": "Грешка",
+    "Trending Movies": "Набиращи популярност",
+    "Latest Movies": "Най-скорошни филми",
+
+    "Failed to log out. Please try again.": "Неуспешен изход. Опитайте отново.",
+    "Logout": "Изход",
+    "Currently you are logged in as guest!": "В момента сте влезли като гост!",
+
+    "Something went wrong while fetching saved movies.": "Нещо се провали при опит да се достъпят запазените филми.",
+    "Deleted": "Изтрит",
+    "Movie removed from your saved list.": "Филмът бе премахнат от списъка на запазени филми.",
+    "Failed to remove movie from saved list.": "Неуспешен опит за премахване на филм.",
+    "You have to be logged in to save movies!": "Необходимо е да сте влезли в профила си за да запазвате филми!",
+    "Your Saved Movies": "Вашите Запазени Филми",
+    "No saved movies yet!": "Все още нямате запазени филми!",
+
+    "Search your movie": "Потърсете желан от Вас филм",
+    "Search results for": "Резултати от търсенето на",
+    "No movies found!": "Няма намерени филми!",
+    "Search for a movie": "Потърсете някой филм"
 }

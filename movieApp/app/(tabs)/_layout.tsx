@@ -2,8 +2,11 @@ import React from 'react'
 import { Tabs } from 'expo-router'
 import TabIcon from '@/components/TabIcon'
 import { icons } from '@/constants/icons'
+import { useTranslation } from 'react-i18next'
 
 const _Layout = () => {
+  const { t } = useTranslation();
+
   return (
     <Tabs screenOptions={{
         tabBarShowLabel: false,
@@ -34,7 +37,7 @@ const _Layout = () => {
                     <TabIcon 
                         focused={focused} 
                         icon={icons.home} 
-                        title="Home" 
+                        title={t('Home')}
                     />
                 ),
             }}
@@ -48,7 +51,7 @@ const _Layout = () => {
                     <TabIcon 
                         focused={focused} 
                         icon={icons.search} 
-                        title="Search" 
+                        title={t('Search')} 
                     />
                 ),
             }}
@@ -62,7 +65,7 @@ const _Layout = () => {
                     <TabIcon 
                         focused={focused} 
                         icon={icons.save} 
-                        title="Saved" 
+                        title={t('Saved')} 
                     />
                 ),
             }}
@@ -76,7 +79,7 @@ const _Layout = () => {
                     <TabIcon 
                         focused={focused} 
                         icon={icons.person} 
-                        title="Profile" 
+                        title={t('Profile')} 
                     />
                 ),
             }}

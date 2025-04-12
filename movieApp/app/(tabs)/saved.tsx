@@ -7,6 +7,7 @@ import SavedMovieCard from '@/components/SavedMovieCard';
 import AlertModal from '@/components/AlertModal';
 import { useSavedMovies } from '@/context/SavedMoviesContext';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const Saved = () => {
   const { user } = useAuth();
@@ -18,9 +19,11 @@ const Saved = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [modalType, setModalType] = useState('info');
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (error) {
-      showModal('Error', error.message || 'Something went wrong while fetching saved movies.', 'error');
+      showModal(t('Error'), error.message || t('Something went wrong while fetching saved movies.'), 'error');
     }
   }, [error]);
 
@@ -47,10 +50,10 @@ const Saved = () => {
     try {
       await unsaveMovie(docId);
       await handleRefresh();
-      showModal('Deleted', 'Movie removed from your saved list.', 'success');
+      showModal(t('Deleted'), t('Movie removed from your saved list.'), 'success');
     } catch (err) {
       console.error(err);
-      showModal('Error', 'Failed to remove movie from saved list.', 'error');
+      showModal(t('Error'), t('Failed to remove movie from saved list.'), 'error');
     }
   };
 
@@ -69,16 +72,16 @@ const Saved = () => {
 
         {!user ? (
           <Text className='text-light-100 text-xl text-center mt-10'>
-            You have to be logged in to save movies!
+            {t('You have to be logged in to save movies!')}
           </Text>
           ) : loading ? (
             <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
           ) : (
             <View className="flex-1 mt-5">
-              <Text className="text-lg text-white font-bold mt-5 mb-3">Your Saved Movies</Text>
+              <Text className="text-lg text-white font-bold mt-5 mb-3">{t('Your Saved Movies')}</Text>
   
               {savedMovies?.length === 0 ? (
-                <Text className="text-center text-xl text-white mt-10">No saved movies yet!</Text>
+                <Text className="text-center text-xl text-white mt-10">{t('No saved movies yet!')}</Text>
               ) : (
                 <FlatList
                   data={savedMovies}

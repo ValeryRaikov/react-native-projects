@@ -8,6 +8,7 @@ import useFetch from '@/hooks/useFetch'
 import { icons } from '@/constants/icons'
 import SearchBar from '@/components/SearchBar'
 import { updateSearchCount } from '@/services/appwrite'
+import { useTranslation } from 'react-i18next'
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,6 +20,8 @@ const Search = () => {
     refetch: loadMovies,
     reset,
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timeoutId = setTimeout(async () => {
@@ -64,7 +67,7 @@ const Search = () => {
               </View>
               <View className='my-5'>
                 <SearchBar 
-                  placeholder='Search your movie...'
+                  placeholder={t('Search your movie')}
                   value={searchQuery}
                   onChangeText={handleSearch}
                 />
@@ -75,12 +78,12 @@ const Search = () => {
               )}
 
               {moviesError && (
-                <Text className='text-red-500 px-5 my-3'>Error: {moviesError.message}</Text>
+                <Text className='text-red-500 px-5 my-3'>{t('Error')}: {moviesError.message}</Text>
               )}
 
               {!moviesLoading && !moviesError && searchQuery.trim() && movies?.length > 0 && (
                 <Text className='text-xl text-white font-bold'>
-                  Search results for {' '}
+                  {t('Search results for')} {' '}
                   <Text className='text-accent'>{searchQuery}</Text>
                 </Text>
               )}
@@ -90,7 +93,7 @@ const Search = () => {
             !moviesLoading && !moviesError ? (
               <View className='mt-10 px-5'>
                 <Text className='text-center text-gray-500'>
-                  {searchQuery.trim() ? 'No movies found!' : 'Search for a movie'}
+                  {searchQuery.trim() ? t('No movies found!') : t('Search for a movie')}
                 </Text>
               </View>
             ) : null
