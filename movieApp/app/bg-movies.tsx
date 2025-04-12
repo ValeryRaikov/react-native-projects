@@ -6,6 +6,7 @@ import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import MovieCard from '@/components/MovieCard';
 import GoBack from '@/components/GoBack';
+import { useTranslation } from 'react-i18next';
 
 const BulgarianMovies = () => {
   const {
@@ -13,6 +14,8 @@ const BulgarianMovies = () => {
     loading,
     error,
   } = useFetch(() => fetchBulgarianMovies());
+
+  const { t } = useTranslation();
 
   return (
     <View className="flex-1 bg-primary">
@@ -37,14 +40,14 @@ const BulgarianMovies = () => {
           {loading ? (
             <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
           ) : error ? (
-            <Text>Грешка: {error?.message}</Text>
+            <Text>{t('Error')}: {error?.message}</Text>
           ) : (
             <View className="flex-1 mt-5">
               {bgMovies && (
                 <>
-                  <Text className="text-3xl text-center text-white font-bold mt-5 mb-3">Добре дошли!</Text>
+                  <Text className="text-3xl text-center text-white font-bold mt-5 mb-3">{t('Welcome')}</Text>
                   <Text className='text-xl text-center text-gray-500 font-semibold mb-3'>
-                    Това е специална страница само за български филми. Насладете се и преоткрийте българското кино...
+                    {t('This is a special page only for bulgarian movies. Enjoy and discover bulgarian cinematography')}...
                   </Text>
 
                   <FlatList
