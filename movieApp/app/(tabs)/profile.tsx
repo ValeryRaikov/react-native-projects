@@ -5,9 +5,20 @@ import { getCurrentUser, logout } from '@/services/appwrite';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import useModal from '@/hooks/useModal';
+import AlertModal from '@/components/AlertModal';
 
 const Profile = () => {
   const { user, setUser, loading } = useAuth();
+
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
 
   const { t } = useTranslation();
 
@@ -26,7 +37,7 @@ const Profile = () => {
       setUser(null);          
       router.replace('/(auth)');
     } catch (err) {
-      alert(t('Failed to log out. Please try again.'));
+      showModal(t('Error'), t('Failed to log out. Please try again.'), 'error');
       console.error(err);
     }
   };
@@ -88,6 +99,14 @@ const Profile = () => {
           </>
         )}
       </View>
+
+      <AlertModal
+        visible={modalVisible}
+        onClose={hideModal}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+      />
     </View>
   )
 }

@@ -11,7 +11,9 @@ import TrendingCard from "@/components/TrendingCard";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
 import TVSeriesCard from "@/components/TvShowCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useModal from "@/hooks/useModal";
+import AlertModal from "@/components/AlertModal";
 
 export default function Index() {
   const router = useRouter();
@@ -30,13 +32,29 @@ export default function Index() {
   } = useFetch(() => fetchMovies({ query: '' }));
 
   const {
-    data: tvSeries,
-    loading: tvSeriesLoading,
-    error: tvSeriesError,
+    data: tvShows,
+    loading: tvShowsLoading,
+    error: tvShowsError,
   } = useFetch(() => fetchTVShows({ query: '' }));
 
   const [showTVSeries, setShowTVSeries] = useState(false);
+
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
+
   const { t } = useTranslation();
+
+  useEffect(() => {
+      if (trendingError || moviesError || tvShowsError) {
+        showModal(t('Error'), t('Something went wrong. Try reloading the app!'), 'error');
+      }
+    }, [trendingError, moviesError, tvShowsError]);
 
   return (
     <View className="flex-1 bg-primary">
@@ -132,15 +150,15 @@ export default function Index() {
             </TouchableOpacity>
             
             {showTVSeries && (
-              tvSeriesLoading ? (
+              tvShowsLoading ? (
                 <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
-              ) : tvSeriesError ? (
-                <Text>{t('Error')}: {tvSeriesError?.message}</Text>
+              ) : tvShowsError ? (
+                <Text>{t('Error')}: {tvShowsError?.message}</Text>
               ) : (
                 <View className="flex-1 mt-5">
                   <Text className="text-lg text-white font-bold mb-3">{t('Trending TV Shows')}</Text>
                   <FlatList
-                    data={tvSeries}
+                    data={tvShows}
                     renderItem={({ item }) => (
                       <TVSeriesCard
                         id={item.id}
@@ -166,6 +184,14 @@ export default function Index() {
             )}
           </View>
         </ScrollView>
+
+        <AlertModal
+          visible={modalVisible}
+          onClose={hideModal}
+          title={modalTitle}
+          message={modalMessage}
+          type={modalType}
+        />
     </View>
   );
 }

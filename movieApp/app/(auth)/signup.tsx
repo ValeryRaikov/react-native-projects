@@ -6,6 +6,8 @@ import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
 import GoBack from '@/components/GoBack';
 import { useTranslation } from 'react-i18next';
+import useModal from '@/hooks/useModal';
+import AlertModal from '@/components/AlertModal';
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState('');
@@ -15,16 +17,25 @@ const SignUpScreen = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
+
   const { t } = useTranslation();
 
   const handleSignup = async () => {
     if (!username || !email || !password || !confirmPassword) {
-      alert(t('Please fill in all required fields'));
+      showModal(t('Error'), t('Please fill in all required fields'), 'error');
       return;
     }
 
     if (password !== confirmPassword) {
-      alert(t('Passwords do not match'));
+      showModal(t('Error'), t('Passwords do not match'), 'error');
       return;
     }
 
@@ -35,7 +46,7 @@ const SignUpScreen = () => {
       router.replace('/(tabs)');
     } catch (err) {
       console.error(err);
-      alert(t('Signup failed. Please try again.'));
+      showModal(t('Error'), t('Signup failed. Please try again.'), 'error');
     } finally {
       setLoading(false);
     }
@@ -129,6 +140,14 @@ const SignUpScreen = () => {
 
         <GoBack />
       </View>
+
+      <AlertModal
+        visible={modalVisible}
+        onClose={hideModal}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+      />
     </View>
   )
 }
