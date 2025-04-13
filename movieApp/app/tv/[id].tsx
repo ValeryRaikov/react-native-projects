@@ -85,7 +85,6 @@ const TVSeriesDetails = () => {
 
             <GoBack />
 
-            {modalVisible && 
             <AlertModal 
                 visible={modalVisible} 
                 onClose={hideModal}
@@ -93,7 +92,6 @@ const TVSeriesDetails = () => {
                 message={modalMessage}
                 type={modalType}
             />
-        }
         </View>
     )
 }

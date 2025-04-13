@@ -1,5 +1,5 @@
 import { View, Image, Text, ScrollView, ActivityIndicator, FlatList } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFetch from '@/hooks/useFetch';
 import { fetchBulgarianMovies } from '@/services/api';
 import { icons } from '@/constants/icons';
@@ -7,6 +7,8 @@ import { images } from '@/constants/images';
 import MovieCard from '@/components/MovieCard';
 import GoBack from '@/components/GoBack';
 import { useTranslation } from 'react-i18next';
+import useModal from '@/hooks/useModal';
+import AlertModal from '@/components/AlertModal';
 
 const BulgarianMovies = () => {
   const {
@@ -14,6 +16,21 @@ const BulgarianMovies = () => {
     loading,
     error,
   } = useFetch(() => fetchBulgarianMovies());
+
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
+
+  useEffect(() => {
+    if (error) {
+      showModal(t('Error'), error.message || t('Something went wrong while fetching bulgarian movies.'), 'error');
+    }
+  }, [error]);
 
   const { t } = useTranslation();
 
@@ -71,6 +88,14 @@ const BulgarianMovies = () => {
             </View>
           )}
       </ScrollView>
+
+      <AlertModal
+        visible={modalVisible}
+        onClose={hideModal}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+      />
     </View>
   )
 }

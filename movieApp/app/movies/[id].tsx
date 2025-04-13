@@ -147,15 +147,13 @@ const MovieDetails = () => {
 
       <GoBack />
 
-      {modalVisible && 
-        <AlertModal 
-          visible={modalVisible} 
-          onClose={hideModal}
-          title={modalTitle}
-          message={modalMessage}
-          type={modalType}
-        />
-      }
+      <AlertModal 
+        visible={modalVisible} 
+        onClose={hideModal}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+      />
     </View>
   )
 }
