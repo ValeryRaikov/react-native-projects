@@ -34,6 +34,9 @@
     "Error": "Грешка",
     "Trending Movies": "Набиращи популярност",
     "Latest Movies": "Най-скорошни филми",
+    "Hide TV Shows": "Скрий TV предавания",
+    "Show TV Shows": "Покажи TV предавания",
+    "Trending TV Shows": "Популярни TV предавания",
 
     "Failed to log out. Please try again.": "Неуспешен изход. Опитайте отново.",
     "Logout": "Изход",
@@ -69,9 +72,13 @@
     "Revenue": "Приходи",
     "Production Companies": "Компании продуценти",
 
+    "Year": "Година",
+    "Episodes": "Брой епизоди",
+    "Seasons": "Брой сезони",
+
     "Welcome": "Добре дошли",
     "This is a special page only for bulgarian movies. Enjoy and discover bulgarian cinematography": "Това е специална страница само за български филми. Насладете се и преоткрийте българското кино",
 
-
-    "Movie": "Филм"
+    "Movie": "Филм",
+    "TV Show": "TV предаване"
 }

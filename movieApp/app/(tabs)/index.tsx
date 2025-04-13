@@ -4,12 +4,14 @@ import { images } from "@/constants/images";
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from 'expo-router';
 import useFetch from "@/hooks/useFetch";
-import { fetchMovies } from "@/services/api";
+import { fetchMovies, fetchTVShows } from "@/services/api";
 import MovieCard from "@/components/MovieCard";
 import { getTrendingMovies } from "@/services/appwrite";
 import TrendingCard from "@/components/TrendingCard";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
+import TVSeriesCard from "@/components/TvShowCard";
+import { useState } from "react";
 
 export default function Index() {
   const router = useRouter();
@@ -27,6 +29,13 @@ export default function Index() {
     error: moviesError, 
   } = useFetch(() => fetchMovies({ query: '' }));
 
+  const {
+    data: tvSeries,
+    loading: tvSeriesLoading,
+    error: tvSeriesError,
+  } = useFetch(() => fetchTVShows({ query: '' }));
+
+  const [showTVSeries, setShowTVSeries] = useState(false);
   const { t } = useTranslation();
 
   return (
@@ -36,7 +45,7 @@ export default function Index() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             minHeight: '100%',
-            paddingBottom: 10,
+            paddingBottom: 120,
           }}
           className="flex-1 px-5"
         >
@@ -101,12 +110,61 @@ export default function Index() {
                       paddingRight: 5,
                       marginBottom: 10,
                     }}
-                    className="mt-2 pb-32"
+                    className="mt-2 pb-10"
                     scrollEnabled={false}
                   />
                 </>
             </View>
           )}
+
+          <View>
+            <TouchableOpacity 
+              onPress={() => setShowTVSeries(!showTVSeries)}
+              className={`py-3 px-4 rounded-lg border-2 border-white ${
+                showTVSeries ? 'bg-white' : 'bg-secondary-100'
+              }`}
+            >
+              <Text className={`text-lg font-semibold text-center ${
+                showTVSeries ? 'text-black' : 'text-white'
+              }`}>
+                {showTVSeries ? t('Hide TV Shows') : t('Show TV Shows')}
+              </Text>
+            </TouchableOpacity>
+            
+            {showTVSeries && (
+              tvSeriesLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
+              ) : tvSeriesError ? (
+                <Text>{t('Error')}: {tvSeriesError?.message}</Text>
+              ) : (
+                <View className="flex-1 mt-5">
+                  <Text className="text-lg text-white font-bold mb-3">{t('Trending TV Shows')}</Text>
+                  <FlatList
+                    data={tvSeries}
+                    renderItem={({ item }) => (
+                      <TVSeriesCard
+                        id={item.id}
+                        poster_path={item.poster_path}
+                        name={item.name}
+                        vote_average={item.vote_average}
+                        first_air_date={item.first_air_date}
+                      />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={3}
+                    columnWrapperStyle={{
+                      justifyContent: 'flex-start',
+                      gap: 20,
+                      paddingRight: 5,
+                      marginBottom: 10,
+                    }}
+                    className="mt-2 pb-10"
+                    scrollEnabled={false}
+                  />
+                </View>
+              )
+            )}
+          </View>
         </ScrollView>
     </View>
   );

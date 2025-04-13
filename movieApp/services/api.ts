@@ -13,6 +13,7 @@ const getLanguageParam = (): string => {
     return i18n.language === 'bg' ? 'bg-BG' : 'en-US';
 }
 
+// Movie functions
 export const fetchMovies = async ({ query }: { query: string }) => {
     const lang = getLanguageParam();
 
@@ -49,8 +50,7 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
 
         const data = await response.json();
 
-        return data;
-            
+        return data;        
     } catch (err) {
         console.log(err);
         throw err;
@@ -68,11 +68,55 @@ export const fetchBulgarianMovies = async () => {
         });
 
         if (!response.ok) 
-            throw new Error('Failed to fetch bulgarian movies');
+            throw new Error("Failed to fetch bulgarian movies");
 
         const data = await response.json();
 
         return data.results;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+// TV Show functions
+export const fetchTVShows = async ({ query }: { query?: string }) => {
+    const lang = getLanguageParam();
+  
+    const endpoint = query
+        ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}&language=${lang}`
+        : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&language=${lang}`;
+  
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+    });
+  
+    if (!response.ok)
+        throw new Error("Failed to fetch TV shows.");
+  
+    const data = await response.json();
+
+    return data.results || [];
+}
+
+export const fetchTVShowDetails = async (id: string) => {
+    const lang = getLanguageParam();
+
+    try {
+        const response = await fetch(
+            `${TMDB_CONFIG.BASE_URL}/tv/${id}?language=${lang}`, {
+                method: 'GET',
+                headers: TMDB_CONFIG.headers,
+            }
+        );
+        
+        if (!response.ok)
+            throw new Error("Failed to fetch TV show details");
+        
+        const data = await response.json();
+      
+        return data;
     } catch (err) {
         console.log(err);
         throw err;

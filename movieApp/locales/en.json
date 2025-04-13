@@ -34,6 +34,9 @@
     "Error": "Error",
     "Trending Movies": "Trending Movies",
     "Latest Movies": "Latest Movies",
+    "Hide TV Shows": "Hide TV Shows",
+    "Show TV Shows": "Show TV Shows",
+    "Trending TV Shows": "Trending TV Shows",
 
     "Failed to log out. Please try again.": "Failed to log out. Please try again.",
     "Logout": "Logout",
@@ -69,8 +72,13 @@
     "Revenue": "Revenue",
     "Production Companies": "Production Companies",
 
+    "Year": "Year",
+    "Episodes": "Episodes",
+    "Seasons": "Seasons",
+
     "Welcome": "Welcome",
     "This is a special page only for bulgarian movies. Enjoy and discover bulgarian cinematography": "This is a special page only for bulgarian movies. Enjoy and discover bulgarian cinematography",
-
-    "Movie": "Movie"
+    
+    "Movie": "Movie",
+    "TV Show": "TV Show"
 }
