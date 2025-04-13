@@ -8,16 +8,21 @@ import AlertModal from '@/components/AlertModal';
 import { useSavedMovies } from '@/context/SavedMoviesContext';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import useModal from '@/hooks/useModal';
 
 const Saved = () => {
   const { user } = useAuth();
   const { savedMovies, loading, error, refreshSavedMovies } = useSavedMovies();
   const [refreshing, setRefreshing] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalMessage, setModalMessage] = useState('');
-  const [modalType, setModalType] = useState('info');
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
 
   const { t } = useTranslation();
 
@@ -37,13 +42,6 @@ const Saved = () => {
     } finally {
       setRefreshing(false);
     }
-  }
-
-  const showModal = (title: string, message: string, type = 'info') => {
-    setModalTitle(title);
-    setModalMessage(message);
-    setModalType(type);
-    setModalVisible(true);
   }
 
   const handleDelete = async (docId: string) => {
@@ -114,7 +112,7 @@ const Saved = () => {
       {modalVisible && (
         <AlertModal
           visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          onClose={hideModal}
           title={modalTitle}
           message={modalMessage}
           type={modalType}

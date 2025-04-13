@@ -10,6 +10,7 @@ import AlertModal from '@/components/AlertModal';
 import GoBack from '@/components/GoBack';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import useModal from '@/hooks/useModal';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
@@ -22,10 +23,14 @@ const MovieDetails = () => {
   } = useFetch(() => fetchMovieDetails(id as string));
   const [saved, setSaved] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalMessage, setModalMessage] = useState('');
-  const [modalType, setModalType] = useState('info');
+  const {
+    modalVisible,
+    modalTitle,
+    modalMessage,
+    modalType,
+    showModal,
+    hideModal,
+  } = useModal();
 
   const { t } = useTranslation();
 
@@ -49,13 +54,6 @@ const MovieDetails = () => {
     if (error)
       showModal(t('Error'), error.message || t('Something went wrong while loading movie details.'), 'error');
   }, [error]);
-
-  const showModal = (title: string, message: string, type = 'info') => {
-    setModalTitle(title);
-    setModalMessage(message);
-    setModalType(type);
-    setModalVisible(true);
-  };
 
   const handleSaveMovie = async () => {
     try {
@@ -152,7 +150,7 @@ const MovieDetails = () => {
       {modalVisible && 
         <AlertModal 
           visible={modalVisible} 
-          onClose={() => setModalVisible(false)}
+          onClose={hideModal}
           title={modalTitle}
           message={modalMessage}
           type={modalType}
