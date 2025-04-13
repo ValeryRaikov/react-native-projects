@@ -135,7 +135,7 @@ export default function Index() {
             </View>
           )}
 
-          <View>
+          <>
             <TouchableOpacity 
               onPress={() => setShowTVSeries(!showTVSeries)}
               className={`py-3 px-4 rounded-lg border-2 border-white ${
@@ -182,7 +182,7 @@ export default function Index() {
                 </View>
               )
             )}
-          </View>
+          </>
         </ScrollView>
 
         <AlertModal

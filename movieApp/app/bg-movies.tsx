@@ -1,7 +1,7 @@
 import { View, Image, Text, ScrollView, ActivityIndicator, FlatList } from 'react-native';
 import React, { useEffect } from 'react';
 import useFetch from '@/hooks/useFetch';
-import { fetchBulgarianMovies } from '@/services/api';
+import { fetchBulgarianMovies, fetchBulgarianTVShows } from '@/services/api';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import MovieCard from '@/components/MovieCard';
@@ -9,13 +9,20 @@ import GoBack from '@/components/GoBack';
 import { useTranslation } from 'react-i18next';
 import useModal from '@/hooks/useModal';
 import AlertModal from '@/components/AlertModal';
+import TVSeriesCard from '@/components/TvShowCard';
 
 const BulgarianMovies = () => {
   const {
     data: bgMovies,
-    loading,
-    error,
+    loading: bgMoviesLoading,
+    error: bgMoviesError,
   } = useFetch(() => fetchBulgarianMovies());
+
+  const {
+    data: bgTvShows,
+    loading: tvShowsLoading,
+    error: bgTvShowsError,
+  } = useFetch(() => fetchBulgarianTVShows());
 
   const {
     modalVisible,
@@ -27,10 +34,10 @@ const BulgarianMovies = () => {
   } = useModal();
 
   useEffect(() => {
-    if (error) {
-      showModal(t('Error'), error.message || t('Something went wrong while fetching bulgarian movies.'), 'error');
+    if (bgMoviesError || bgTvShowsError) {
+      showModal(t('Error'), t('Something went wrong while fetching bulgarian movies and TV shows.'), 'error');
     }
-  }, [error]);
+  }, [bgMoviesError, bgTvShowsError]);
 
   const { t } = useTranslation();
 
@@ -54,10 +61,10 @@ const BulgarianMovies = () => {
             resizeMode='contain' 
           />
 
-          {loading ? (
+          {bgMoviesLoading ? (
             <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
-          ) : error ? (
-            <Text>{t('Error')}: {error?.message}</Text>
+          ) : bgMoviesError ? (
+            <Text>{t('Error')}: {bgMoviesError?.message}</Text>
           ) : (
             <View className="flex-1 mt-5">
               {bgMovies && (
@@ -66,6 +73,7 @@ const BulgarianMovies = () => {
                   <Text className='text-xl text-center text-gray-500 font-semibold mb-3'>
                     {t('This is a special page only for bulgarian movies. Enjoy and discover bulgarian cinematography')}...
                   </Text>
+                  <Text className="text-lg text-white font-bold mb-3">{t('Bulgarian Movies')}</Text>
 
                   <FlatList
                     data={bgMovies}
@@ -80,13 +88,47 @@ const BulgarianMovies = () => {
                       paddingRight: 5,
                       marginBottom: 10,
                     }}
-                    className="mt-2 pb-32"
+                    className="mt-2 pb-10"
                     scrollEnabled={false}
                   />
                 </>
               )}
             </View>
           )}
+
+          <>
+            {tvShowsLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" className="mt-10 self-center" />
+              ) : bgTvShowsError ? (
+                <Text>{t('Error')}: {bgTvShowsError?.message}</Text>
+              ) : (
+                <View className="flex-1 mt-5">
+                  <Text className="text-lg text-white font-bold mb-3">{t('Bulgarian TV Shows')}</Text>
+                  <FlatList
+                    data={bgTvShows}
+                    renderItem={({ item }) => (
+                      <TVSeriesCard
+                        id={item.id}
+                        poster_path={item.poster_path}
+                        name={item.name}
+                        vote_average={item.vote_average}
+                        first_air_date={item.first_air_date}
+                      />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={3}
+                    columnWrapperStyle={{
+                      justifyContent: 'flex-start',
+                      gap: 20,
+                      paddingRight: 5,
+                      marginBottom: 10,
+                    }}
+                    className="mt-2 pb-10"
+                    scrollEnabled={false}
+                  />
+                </View>
+              )}
+          </>
       </ScrollView>
 
       <AlertModal

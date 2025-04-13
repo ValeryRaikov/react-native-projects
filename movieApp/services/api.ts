@@ -122,3 +122,26 @@ export const fetchTVShowDetails = async (id: string) => {
         throw err;
     }
 }
+
+export const fetchBulgarianTVShows = async () => {
+    const lang = getLanguageParam();
+
+    try {
+        const response = await fetch(
+            `${TMDB_CONFIG.BASE_URL}/discover/tv?language=${lang}&with_original_language=bg&sort_by=popularity.desc&api_key=${TMDB_CONFIG.API_KEY}`, {
+                method: 'GET',
+                headers: TMDB_CONFIG.headers,
+            }
+        );
+
+        if (!response.ok)
+            throw new Error("Failed to fetch Bulgarian TV shows");
+
+        const data = await response.json();
+        
+        return data.results || [];
+    } catch (err) {
+        console.error('Error fetching Bulgarian TV shows:', err);
+        throw err;
+    }
+}
