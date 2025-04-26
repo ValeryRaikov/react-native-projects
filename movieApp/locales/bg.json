@@ -82,5 +82,16 @@
     "Bulgarian TV Shows": "Български TV предавания",
 
     "Movie": "Филм",
-    "TV Show": "TV предаване"
+    "TV Show": "TV предаване",
+
+    "Select what you want to see...": "Изберете какво искате да виждате...",
+    "Show Media": "Покажи Медия",
+    "Show Actors": "Покажи Актьори",
+    "Popular Actors": "Известни Актьори",
+    "Popularity": "Известност",
+
+    "Something went wrong while loading actor details.": "Нещо се провали при опит да се достъпят детайлите за актьора.",
+    "Birthday": "Рожден ден",
+    "Biography": "Биография",
+    "Movies with": "Филми с"
 }

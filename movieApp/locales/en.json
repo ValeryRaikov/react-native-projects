@@ -82,5 +82,16 @@
     "Bulgarian TV Shows": "Bulgarian TV Shows",
 
     "Movie": "Movie",
-    "TV Show": "TV Show"
+    "TV Show": "TV Show",
+
+    "Select what you want to see...": "Select what you want to see...",
+    "Show Media": "Show Media",
+    "Show Actors": "Show Actors",
+    "Popular Actors": "Popular Actors",
+    "Popularity": "Popularity",
+
+    "Something went wrong while loading actor details.": "Something went wrong while loading actor details.",
+    "Birthday": "Birthday",
+    "Biography": "Biography",
+    "Movies with": "Movies with"
 }

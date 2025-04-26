@@ -145,3 +145,76 @@ export const fetchBulgarianTVShows = async () => {
         throw err;
     }
 }
+
+// Actor functions
+export const fetchActors = async ({ query }: { query?: string }) => {
+    const lang = getLanguageParam();
+
+    const endpoint = query
+        ? `${TMDB_CONFIG.BASE_URL}/search/person?query=${encodeURIComponent(query)}&language=${lang}`
+        : `${TMDB_CONFIG.BASE_URL}/person/popular?language=${lang}`;
+
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+    });
+
+    if (!response.ok)
+        throw new Error(`Failed to fetch actors. ${response.statusText}`);
+
+    const data = await response.json();
+
+    return data.results || [];
+}
+
+export const fetchActorDetails = async (actorId: string) => {
+    const lang = getLanguageParam();
+
+    try {
+        const response = await fetch(
+            `${TMDB_CONFIG.BASE_URL}/person/${actorId}?language=${lang}`, {
+                method: 'GET',
+                headers: TMDB_CONFIG.headers,
+            }
+        );
+
+        if (!response.ok) 
+            throw new Error('Failed to fetch actor details.');
+
+        const data = await response.json();
+
+        return data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export const fetchActorMovies = async (actorId: string) => {
+    const lang = getLanguageParam();
+
+    try {
+        const response = await fetch(
+            `${TMDB_CONFIG.BASE_URL}/person/${actorId}/movie_credits?language=${lang}`, {
+                method: 'GET',
+                headers: TMDB_CONFIG.headers,
+            }
+        );
+
+        if (!response.ok)
+            throw new Error('Failed to fetch actor movie credits.');
+
+        const data = await response.json();
+
+        const sortedMovies = (data.cast || []).sort((a: any, b: any) => {
+            const dateA = a.release_date ? new Date(a.release_date).getTime() : 0;
+            const dateB = b.release_date ? new Date(b.release_date).getTime() : 0;
+            return dateB - dateA;
+        });
+
+        return sortedMovies;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
