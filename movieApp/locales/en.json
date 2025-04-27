@@ -50,7 +50,7 @@
     "Your Saved Movies": "Your Saved Movies",
     "No saved movies yet!": "No saved movies yet!",
 
-    "Search your movie": "Search your movie",
+    "Search your movie, TV show or actor": "Search your movie, TV show or actor",
     "Search results for": "Search results for",
     "No movies found!": "No movies found!",
     "Search for a movie": "Search for a movie",
@@ -93,5 +93,11 @@
     "Something went wrong while loading actor details.": "Something went wrong while loading actor details.",
     "Birthday": "Birthday",
     "Biography": "Biography",
-    "Movies with": "Movies with"
+    "Movies with": "Movies with",
+
+    "Movies": "Movies",
+    "TV Shows": "TV Shows",
+    "Actors": "Actors",
+    "No results found for": "No results found for",
+    "Search for a movie, TV show or actor": "Search for a movie, TV show or actor"
 }

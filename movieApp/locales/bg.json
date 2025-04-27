@@ -50,7 +50,7 @@
     "Your Saved Movies": "Вашите Запазени Филми",
     "No saved movies yet!": "Все още нямате запазени филми!",
 
-    "Search your movie": "Потърсете желан от Вас филм",
+    "Search your movie, TV show or actor": "Потърсете желан от Вас филм, TV предаване или актьор",
     "Search results for": "Резултати от търсенето на",
     "No movies found!": "Няма намерени филми!",
     "Search for a movie": "Потърсете някой филм",
@@ -93,5 +93,11 @@
     "Something went wrong while loading actor details.": "Нещо се провали при опит да се достъпят детайлите за актьора.",
     "Birthday": "Рожден ден",
     "Biography": "Биография",
-    "Movies with": "Филми с"
+    "Movies with": "Филми с",
+
+    "Movies": "Филми",
+    "TV Shows": "TV предавания",
+    "Actors": "Актьори",
+    "No results found for": "Не са намерени разултати за",
+    "Search for a movie, TV show or actor": "Потърсете филм, TV предаване или актьор"
 }
