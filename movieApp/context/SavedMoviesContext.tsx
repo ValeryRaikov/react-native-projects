@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
 import useFetch from '@/hooks/useFetch';
 import { getSavedMovies } from '@/services/appwrite';
 import { useAuth } from './AuthContext';
@@ -25,10 +25,10 @@ export const SavedMoviesProvider = ({ children }: { children: React.ReactNode })
     loading,
     error,
     refetch: refreshSavedMovies,
-  } = useFetch(fetchSavedMovies);
+  } = useFetch(fetchSavedMovies, true);
 
   const value = { 
-    savedMovies, 
+    savedMovies: user?.$id ? savedMovies : [],
     loading, 
     error, 
     refreshSavedMovies, 
