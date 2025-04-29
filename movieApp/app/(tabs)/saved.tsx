@@ -46,7 +46,7 @@ const Saved = () => {
 
   const handleDelete = async (docId: string) => {
     try {
-      await unsaveMovie(docId);
+      await unsaveMovie(docId, user.$id);
       await handleRefresh();
       showModal(t('Deleted'), t('Movie removed from your saved list.'), 'success');
     } catch (err) {

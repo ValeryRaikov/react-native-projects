@@ -11,10 +11,12 @@ import GoBack from '@/components/GoBack';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import useModal from '@/hooks/useModal';
+import { useSavedMovies } from '@/context/SavedMoviesContext';
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
   const { user } = useAuth();
+  const { refreshSavedMovies } = useSavedMovies();
 
   const { 
     data: movie, 
@@ -40,7 +42,7 @@ const MovieDetails = () => {
         return;
       
       try {
-        const isSaved = await checkIfMovieSaved(movie.id);
+        const isSaved = await checkIfMovieSaved(movie.id, user.$id);
         setSaved(isSaved);
       } catch (err) {
         console.error(err);
@@ -66,7 +68,8 @@ const MovieDetails = () => {
       }
 
       setSaved(true);
-      await saveMovie(movie);
+      await saveMovie(movie, user.$id);
+      await refreshSavedMovies();
       showModal(t('Success'), t('Movie saved to your saved list.'), 'success');
     } catch (err) {
       console.error(err);

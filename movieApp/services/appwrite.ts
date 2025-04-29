@@ -52,10 +52,11 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
     }
 }
 
-export const checkIfMovieSaved = async (movieId: number): Promise<boolean> => {
+export const checkIfMovieSaved = async (movieId: number, userId: string): Promise<boolean> => {
   try {
     const res = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID, [
       Query.equal('movie_id', movieId),
+      Query.equal("user_id", userId),
     ]);
     
     return res.documents.length > 0;
@@ -63,11 +64,11 @@ export const checkIfMovieSaved = async (movieId: number): Promise<boolean> => {
     console.error(err);
     return false;
   }
-};
+}
 
-export const saveMovie = async (movie: Movie) => {
+export const saveMovie = async (movie: MovieDetails, userId: string) => {
     try {
-        const alreadySaved = await checkIfMovieSaved(movie.id);
+        const alreadySaved = await checkIfMovieSaved(movie.id, userId);
   
         if (!alreadySaved) {
             await database.createDocument(DATABASE_ID, SAVED_COLLECTION_ID, ID.unique(), {
@@ -76,6 +77,7 @@ export const saveMovie = async (movie: Movie) => {
                 poster_url: movie.poster_path 
                     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
                     : null,
+                user_id: userId,
             });
         } else {
             return;
@@ -84,26 +86,34 @@ export const saveMovie = async (movie: Movie) => {
         console.error(err);
         throw err;
     }
-};
+}
 
-export const getSavedMovies = async (): Promise<AppwriteMovie[]> => {
+export const getSavedMovies = async (userId: string): Promise<AppwriteMovie[]> => {
     try {
-        const response = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID);
+        const response = await database.listDocuments(DATABASE_ID, SAVED_COLLECTION_ID, [
+            Query.equal("user_id", userId),
+        ]);
+
         return response.documents as unknown as AppwriteMovie[];
     } catch (err) {
         console.error(err);
         return [];
     }
-};
+}
 
-export const unsaveMovie = async (docId: string) => {
+export const unsaveMovie = async (docId: string, userId: string) => {
     try {
+        const doc = await database.getDocument(DATABASE_ID, SAVED_COLLECTION_ID, docId);
+
+        if (doc.user_id !== userId)
+            throw new Error("You don't have permission to delete this movie.");
+
         await database.deleteDocument(DATABASE_ID, SAVED_COLLECTION_ID, docId);
     } catch (err) {
         console.error(err);
         throw err;
     }
-};
+}
 
 // AUTH FUNCTIONS
 export const restoreSession = async () => {
