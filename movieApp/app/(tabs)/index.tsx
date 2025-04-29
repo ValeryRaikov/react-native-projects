@@ -59,10 +59,10 @@ export default function Index() {
   const { t } = useTranslation();
 
   useEffect(() => {
-      if (trendingError || moviesError || tvShowsError || actorsError) {
-        showModal(t('Error'), t('Something went wrong. Try reloading the app!'), 'error');
-      }
-    }, [trendingError, moviesError, tvShowsError, actorsError]);
+    if (trendingError || moviesError || tvShowsError || actorsError) {
+      showModal(t('Error'), t('Something went wrong. Try reloading the app!'), 'error');
+    }
+  }, [trendingError, moviesError, tvShowsError, actorsError]);
 
   return (
     <View className="flex-1 bg-primary">

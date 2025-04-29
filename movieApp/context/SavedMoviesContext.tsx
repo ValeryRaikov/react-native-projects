@@ -25,7 +25,7 @@ export const SavedMoviesProvider = ({ children }: { children: React.ReactNode })
     loading,
     error,
     refetch: refreshSavedMovies,
-  } = useFetch(fetchSavedMovies, true);
+  } = useFetch(fetchSavedMovies);
 
   const value = { 
     savedMovies: user?.$id ? savedMovies : [],
